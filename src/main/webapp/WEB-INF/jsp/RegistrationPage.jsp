@@ -1,6 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="/jsp/i18n.jsp" %>
+<%@include file="i18n.jsp" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -48,7 +48,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.jsp">
+            <a class="navbar-brand" href="loginPage.jsp">
                 <fmt:message bundle="${common}" key="main.page"/>
             </a>
         </div>

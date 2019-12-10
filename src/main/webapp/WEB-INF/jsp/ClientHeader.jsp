@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="/jsp/i18n.jsp" %>
+<%@include file="i18n.jsp" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -58,7 +58,7 @@
         <ul id="active" class="nav navbar-nav side-nav">
 
 
-            <li><a href="/app?command=client_get_create_report_page"><i class="fa fa-plus"></i> <fmt:message
+            <li><a href="/client/create-report"><i class="fa fa-plus"></i> <fmt:message
                     bundle="${common}"
                     key="create.new.report"/></a>
             </li>

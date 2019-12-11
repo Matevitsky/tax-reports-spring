@@ -5,6 +5,8 @@ import com.matevytskyi.taxreports.entity.ReportStatus;
 import com.matevytskyi.taxreports.repository.ReportRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,8 +49,8 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Optional<List<Report>> getAll() {
-        throw new UnsupportedOperationException();
+    public Page<Report> findAll(Pageable pageable) {
+        return reportRepository.findAll(pageable);
     }
 
     @Override

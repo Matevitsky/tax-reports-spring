@@ -4,6 +4,8 @@ import com.matevytskyi.taxreports.entity.Client;
 import com.matevytskyi.taxreports.repository.ClientRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -70,8 +72,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Optional<List<Client>> getAll() {
-        return Optional.empty();
+    public Page<Client> findAll(Pageable pageable) {
+        return clientRepository.findAll(pageable);
     }
 
     @Override

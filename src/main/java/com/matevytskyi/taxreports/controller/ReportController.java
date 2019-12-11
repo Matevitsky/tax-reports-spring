@@ -25,4 +25,6 @@ public class ReportController {
         //clientService.register(client);
         return "ClientPage";
     }
+
+
 }

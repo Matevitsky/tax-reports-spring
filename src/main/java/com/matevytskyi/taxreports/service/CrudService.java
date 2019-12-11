@@ -1,6 +1,8 @@
 package com.matevytskyi.taxreports.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.Optional;
 
 public interface CrudService<S> {
@@ -13,5 +15,5 @@ public interface CrudService<S> {
 
     Optional<S> getById(long id);
 
-    Optional<List<S>> getAll();
+    Page<S> findAll(Pageable pageable);
 }

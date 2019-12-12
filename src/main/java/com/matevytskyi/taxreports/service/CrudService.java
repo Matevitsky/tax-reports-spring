@@ -1,10 +1,6 @@
 package com.matevytskyi.taxreports.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import java.util.Optional;
-
+/*
 public interface CrudService<S> {
 
     S create(S entity);
@@ -17,3 +13,4 @@ public interface CrudService<S> {
 
     Page<S> findAll(Pageable pageable);
 }
+*/

@@ -15,8 +15,6 @@
 
                 <form employeeRole="form" action="/app" method="get">
                     <c:set var="report" value="${report}"/>
-                    <input type="hidden" name="command" value="client_create_report">
-
                     <div class="form-group">
                         <label>Tittle</label>
                         <input class="form-control" name="tittle" placeholder="${report.tittle}">

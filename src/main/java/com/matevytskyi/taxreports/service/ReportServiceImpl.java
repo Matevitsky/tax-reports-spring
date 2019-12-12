@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,31 +26,40 @@ public class ReportServiceImpl implements ReportService {
         this.reportRepository = reportRepository;
     }
 
-    @Override
-    public Report create(Report report) {
+
+    public Report create(String tittle, String content) {
         LOGGER.debug("save report start");
+        //TODO: implement method with logged user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // CustomUser customUser = (CustomUser)authentication.getPrincipal();
+        // int userId = customUser.getUserId();
+        Report report = Report.builder()
+                .id(1)
+                .status(ReportStatus.NEW)
+                .tittle(tittle)
+                .content(content).build();
         return reportRepository.save(report);
     }
 
-    @Override
+
     public void deleteById(long id) {
         LOGGER.debug("deleteById report start");
         reportRepository.deleteById(id);
     }
 
-    @Override
+
     public Report update(Report report) {
 
         //TODO: check how to implement
         return reportRepository.save(report);
     }
 
-    @Override
+
     public Optional<Report> getById(long id) {
         return reportRepository.findById(id);
     }
 
-    @Override
+
     public Page<Report> findAll(Pageable pageable) {
         return reportRepository.findAll(pageable);
     }

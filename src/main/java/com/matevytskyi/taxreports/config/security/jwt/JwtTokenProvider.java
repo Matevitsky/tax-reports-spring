@@ -2,14 +2,13 @@ package com.matevytskyi.taxreports.config.security.jwt;
 
 import com.matevytskyi.taxreports.config.security.exception.InvalidJwtAuthenticationException;
 import com.matevytskyi.taxreports.entity.Role;
+import com.matevytskyi.taxreports.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +24,7 @@ public class JwtTokenProvider {
     private static final String BEARER_ = "Bearer ";
     private static final String EXPIRED_OR_INVALID_JWT_TOKEN = "Expired or invalid JWT token";
     private static final String ROLES = "roles";
-    private static final String USER_SERVICE_IMPL = "userServiceImpl";
+    //   private static final String USER_SERVICE_IMPL = "userServiceImpl";
     private static final String EMPTY_STRING = "";
 
 
@@ -35,9 +34,9 @@ public class JwtTokenProvider {
     @Value("${jwt.token.expire-length}") // 1h
     private long validityInMilliseconds;
 
-    @Qualifier(USER_SERVICE_IMPL)
+    //   @Qualifier(USER_SERVICE_IMPL)
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
 
     @PostConstruct
     protected void init() {
@@ -64,7 +63,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
+        UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

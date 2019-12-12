@@ -2,6 +2,7 @@ package com.matevytskyi.taxreports.config.security;
 
 import com.matevytskyi.taxreports.config.security.jwt.JwtSecurityConfigurer;
 import com.matevytskyi.taxreports.config.security.jwt.JwtTokenProvider;
+import com.matevytskyi.taxreports.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,14 +21,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String API_USER = "/api/user/**";
 
 
-    private final UserService userService;
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
+    private final CustomUserDetailsService customUserDetailsService;
+
+    private final JwtTokenProvider jwtTokenProvider;
+
 
     @Autowired
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtTokenProvider jwtTokenProvider) {
+        this.customUserDetailsService = customUserDetailsService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
+
 
     @Bean
     @Override
@@ -59,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
+        auth.userDetailsService(customUserDetailsService)
                 .passwordEncoder(getPasswordEncoder());
     }
 }

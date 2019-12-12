@@ -12,18 +12,20 @@ public interface ReportService {
 
     Report create(String tittle, String content);
 
+    Report save(Report report);
+
     void deleteById(long id);
 
-    Report update(Report report);
 
     Optional<Report> getById(long id);
 
     Page<Report> findAll(Pageable pageable);
 
+    List<Report> findNewReports(long inspectorId);
 
-    Optional<List<Report>> getReportsByClientId(long clientId);
+    List<Report> getReportsByClientId(long clientId);
 
-    Optional<List<Report>> getClientActiveReports(long clientId);
+    List<Report> getClientActiveReports(long clientId);
 
     Report changeStatusToInProgress(Report report);
 }

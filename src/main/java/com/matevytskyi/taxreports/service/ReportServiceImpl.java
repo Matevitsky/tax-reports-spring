@@ -28,7 +28,7 @@ public class ReportServiceImpl implements ReportService {
 
 
     public Report create(String tittle, String content) {
-        LOGGER.debug("save report start");
+        LOGGER.debug("create report start");
         //TODO: implement method with logged user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // CustomUser customUser = (CustomUser)authentication.getPrincipal();
@@ -41,17 +41,15 @@ public class ReportServiceImpl implements ReportService {
         return reportRepository.save(report);
     }
 
+    public Report save(Report report) {
+        LOGGER.debug("save report start");
+        return reportRepository.save(report);
+    }
+
 
     public void deleteById(long id) {
         LOGGER.debug("deleteById report start");
         reportRepository.deleteById(id);
-    }
-
-
-    public Report update(Report report) {
-
-        //TODO: check how to implement
-        return reportRepository.save(report);
     }
 
 
@@ -65,14 +63,19 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Optional<List<Report>> getReportsByClientId(long clientId) {
+    public List<Report> findNewReports(long inspectorId) {
+        return reportRepository.findAllByClient_IdAndStatus(inspectorId, ReportStatus.NEW);
+    }
+
+    @Override
+    public List<Report> getReportsByClientId(long clientId) {
         LOGGER.debug("FindAll report by client Id  started");
         return reportRepository.findAllByClient_Id(clientId);
     }
 
     @Override
-    public Optional<List<Report>> getClientActiveReports(long clientId) {
-        return reportRepository.findAllByClient_IdAndAndStatusNot(clientId, ReportStatus.ACCEPTED);
+    public List<Report> getClientActiveReports(long clientId) {
+        return reportRepository.findAllByClient_IdAndStatusNot(clientId, ReportStatus.ACCEPTED);
     }
 
     @Override

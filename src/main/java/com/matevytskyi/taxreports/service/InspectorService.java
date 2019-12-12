@@ -1,17 +1,31 @@
-/*
 package com.matevytskyi.taxreports.service;
 
+
+import com.matevytskyi.taxreports.entity.Employee;
+import com.matevytskyi.taxreports.entity.Report;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface InspectorService extends CrudService<Employee> {
+public interface InspectorService {
 
-    Optional<Employee> findByEmail(String email);
+    Employee create(Employee inspecotor);
 
-    Optional<List<ReportWithClientName>> getReports(int inspectorId);
+    void deleteById(long id);
 
-    Optional<List<ReportWithClientName>> getNewReports(int inspectorId);
+    Employee update(Employee inspector);
+
+    Optional<Employee> getById(long id);
+
+    Page<Employee> findAll(Pageable pageable);
+
+    Employee findByEmail(String email);
+
+    List<Report> getReports(int inspectorId);
+
+    List<Report> getNewReports(int inspectorId);
 
     boolean acceptReport(int reportId);
 
@@ -20,4 +34,3 @@ public interface InspectorService extends CrudService<Employee> {
     Employee getFreeInspector();
 
 }
-*/

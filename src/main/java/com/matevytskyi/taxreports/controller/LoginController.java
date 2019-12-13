@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 public class LoginController {
@@ -42,14 +44,15 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(Model model, @RequestParam(name = "email") String email,
+    public String login(Model model, HttpServletRequest request, @RequestParam(name = "email") String email,
                         @RequestParam(name = "password") String password) {
         LOGGER.info("Started");
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             String token = jwtTokenProvider.createToken(email, this.customUserDetailsService.findUserByEmail(email)
                     .orElseThrow(() -> new UsernameNotFoundException(USERNAME + email + NOT_FOUND)).getRoles());
-            model.addAttribute("token", token);
+            request.getSession().setAttribute("Authorization", "Bearer " + token);
+            //    model.addAttribute("token", token);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException(INVALID_USERNAME_PASSWORD_SUPPLIED);
         }

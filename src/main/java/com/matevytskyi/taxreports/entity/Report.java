@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 public class Report {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotEmpty

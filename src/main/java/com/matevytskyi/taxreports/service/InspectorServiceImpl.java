@@ -32,56 +32,56 @@ public class InspectorServiceImpl implements InspectorService {
 
     @Override
     public Employee create(Employee inspector) {
-        LOGGER.debug("create inspecotr started");
+        LOGGER.info("create inspecotr started");
         return inspectorRepository.save(inspector);
     }
 
     @Override
     public void deleteById(long id) {
-        LOGGER.debug("deleteById inspecotr started");
+        LOGGER.info("deleteById inspecotr started");
         inspectorRepository.deleteById(id);
     }
 
     @Override
     public Employee update(Employee inspector) {
-        LOGGER.debug("update inspecotr started");
+        LOGGER.info("update inspecotr started");
         return inspectorRepository.save(inspector);
     }
 
     @Override
     public Optional<Employee> getById(long id) {
-        LOGGER.debug("getById inspecotr started");
+        LOGGER.info("getById inspecotr started");
         return inspectorRepository.findById(id);
     }
 
     @Override
     public Page<Employee> findAll(Pageable pageable) {
-        LOGGER.debug("findAll inspecotr started");
+        LOGGER.info("findAll inspecotr started");
         return inspectorRepository.findAll(pageable);
     }
 
     @Override
     public Employee findByEmail(String email) {
         //TODO: check if null
-        LOGGER.debug("findByEmail inspecotr started");
+        LOGGER.info("findByEmail inspecotr started");
         return inspectorRepository.findByEmail(email);
     }
 
     @Override
     public List<Report> getReports(int inspectorId) {
-        LOGGER.debug("getReports inspecotr started");
+        LOGGER.info("getReports inspecotr started");
         return reportService.getReportsByClientId(inspectorId);
     }
 
     @Override
     public List<Report> getNewReports(int inspectorId) {
-        LOGGER.debug("getNewReports inspecotr started");
+        LOGGER.info("getNewReports inspecotr started");
         return reportService.findNewReports(inspectorId);
     }
 
     @Override
     public boolean acceptReport(int reportId) {
-        LOGGER.debug("acceptReport inspecotr started");
+        LOGGER.info("acceptReport inspecotr started");
         Report update = null;
 
         Optional<Report> optionalReport = reportService.getById(reportId);
@@ -96,7 +96,7 @@ public class InspectorServiceImpl implements InspectorService {
 
     @Override
     public boolean declineReport(int reportId, String reasonToReject) {
-        LOGGER.debug("declineReport inspecotr started");
+        LOGGER.info("declineReport inspecotr started");
 
         Report update = null;
         Optional<Report> optionalReport = reportService.getById(reportId);

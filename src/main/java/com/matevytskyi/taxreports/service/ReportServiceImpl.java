@@ -28,7 +28,7 @@ public class ReportServiceImpl implements ReportService {
 
 
     public Report create(String tittle, String content) {
-        LOGGER.debug("create report start");
+        LOGGER.info("create report start");
         //TODO: implement method with logged user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // CustomUser customUser = (CustomUser)authentication.getPrincipal();
@@ -42,13 +42,13 @@ public class ReportServiceImpl implements ReportService {
     }
 
     public Report save(Report report) {
-        LOGGER.debug("save report start");
+        LOGGER.info("save report start");
         return reportRepository.save(report);
     }
 
 
     public void deleteById(long id) {
-        LOGGER.debug("deleteById report start");
+        LOGGER.info("deleteById report start");
         reportRepository.deleteById(id);
     }
 
@@ -69,7 +69,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<Report> getReportsByClientId(long clientId) {
-        LOGGER.debug("FindAll report by client Id  started");
+        LOGGER.info("FindAll report by client Id  started");
         return reportRepository.findAllByClient_Id(clientId);
     }
 

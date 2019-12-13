@@ -30,7 +30,7 @@ public class ReportController {
 
     @GetMapping("/save")
     public String save(@RequestParam(value = "tittle") String tittle, @RequestParam(value = "content") String content) {
-        LOGGER.debug("Save controller started");
+        LOGGER.info("Save controller started");
         reportService.create(tittle, content);
         return "ClientCreateReportPage";
     }

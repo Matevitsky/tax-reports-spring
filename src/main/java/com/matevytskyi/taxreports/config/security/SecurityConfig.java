@@ -4,6 +4,7 @@ import com.matevytskyi.taxreports.config.security.jwt.JwtSecurityConfigurer;
 import com.matevytskyi.taxreports.config.security.jwt.JwtTokenProvider;
 import com.matevytskyi.taxreports.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String LOGIN = "/login";
+    private static final String MAIN = "/";
     private static final String API_USER = "/api/user/**";
+    private static final String STATIC_CONTENT = "/resources/static";
 
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -43,12 +46,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()
+
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 
                 .antMatchers(LOGIN).permitAll()
+                .antMatchers(MAIN).permitAll()
                 // .antMatchers(API_USER).hasAuthority(Role.SUPER_ADMIN.getAuthority())
                 .anyRequest().authenticated()
                 .and()

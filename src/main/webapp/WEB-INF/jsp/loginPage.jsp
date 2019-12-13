@@ -27,8 +27,7 @@
         <br>
 
 
-        <form class="col-lg-12" action="/app" method="post">
-            <input type="hidden" name="command" value="login">
+        <form class="col-lg-12" action="/login" method="post">
             <div class="input-group" style="width: 340px; text-align: center; margin: 0 auto;">
                 <input class="form-control input-lg" name="email" id="email" placeholder="Enter your email address"
                        type="text"> <span id="loginValid"></span>

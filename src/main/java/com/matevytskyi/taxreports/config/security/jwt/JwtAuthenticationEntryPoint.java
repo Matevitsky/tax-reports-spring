@@ -17,7 +17,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-        log.debug(JWT_AUTHENTICATION_FAILED + authException);
+        log.info(JWT_AUTHENTICATION_FAILED + authException);
 
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, JWT_AUTHENTICATION_FAILED);
 

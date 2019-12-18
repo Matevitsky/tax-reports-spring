@@ -1,3 +1,4 @@
+/*
 package com.matevytskyi.taxreports.config.security.jwt;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,3 +25,4 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     }
 
 }
+*/

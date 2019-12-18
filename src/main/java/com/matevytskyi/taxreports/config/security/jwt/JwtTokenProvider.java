@@ -1,3 +1,4 @@
+/*
 package com.matevytskyi.taxreports.config.security.jwt;
 
 import com.matevytskyi.taxreports.config.security.exception.InvalidJwtAuthenticationException;
@@ -87,3 +88,4 @@ public class JwtTokenProvider {
         }
     }
 }
+*/

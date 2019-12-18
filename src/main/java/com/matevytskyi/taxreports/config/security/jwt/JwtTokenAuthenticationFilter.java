@@ -1,3 +1,4 @@
+/*
 package com.matevytskyi.taxreports.config.security.jwt;
 
 import org.springframework.security.core.Authentication;
@@ -35,3 +36,4 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
     }
 
 }
+*/

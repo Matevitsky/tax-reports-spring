@@ -1,3 +1,4 @@
+/*
 package com.matevytskyi.taxreports.config.security.jwt;
 
 
@@ -23,3 +24,4 @@ public class JwtSecurityConfigurer extends SecurityConfigurerAdapter<DefaultSecu
                 .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
+*/

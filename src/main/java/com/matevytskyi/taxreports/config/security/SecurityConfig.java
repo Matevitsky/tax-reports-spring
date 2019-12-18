@@ -1,7 +1,6 @@
 package com.matevytskyi.taxreports.config.security;
 
-import com.matevytskyi.taxreports.config.security.jwt.JwtSecurityConfigurer;
-import com.matevytskyi.taxreports.config.security.jwt.JwtTokenProvider;
+
 import com.matevytskyi.taxreports.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -11,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -26,21 +24,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService customUserDetailsService;
 
-    private final JwtTokenProvider jwtTokenProvider;
+    // private final JwtTokenProvider jwtTokenProvider;
 
 
     @Autowired
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
-        this.jwtTokenProvider = jwtTokenProvider;
+        //   this.jwtTokenProvider = jwtTokenProvider;
     }
 
 
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
+
         return super.authenticationManagerBean();
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,17 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
 
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-
+                .anyRequest().permitAll()
                 .antMatchers(LOGIN).permitAll()
-                .antMatchers(MAIN).permitAll()
-                // .antMatchers(API_USER).hasAuthority(Role.SUPER_ADMIN.getAuthority())
-                .anyRequest().authenticated()
-                .and()
-                .apply(new JwtSecurityConfigurer(jwtTokenProvider));
+                .antMatchers(MAIN).permitAll();
+        // .antMatchers(API_USER).hasAuthority(Role.SUPER_ADMIN.getAuthority())
+        //    .anyRequest().authenticated();
     }
 
     @Bean
@@ -71,5 +67,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService)
                 .passwordEncoder(getPasswordEncoder());
+    }
+
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

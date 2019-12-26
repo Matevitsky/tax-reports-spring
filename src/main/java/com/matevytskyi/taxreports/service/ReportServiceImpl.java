@@ -1,14 +1,15 @@
 package com.matevytskyi.taxreports.service;
 
+import com.matevytskyi.taxreports.entity.Client;
 import com.matevytskyi.taxreports.entity.Report;
 import com.matevytskyi.taxreports.entity.ReportStatus;
+import com.matevytskyi.taxreports.repository.ClientRepository;
 import com.matevytskyi.taxreports.repository.ReportRepository;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,24 +18,30 @@ import java.util.Optional;
 @Service
 public class ReportServiceImpl implements ReportService {
 
-    private static final Logger LOGGER = Logger.getLogger(ReportServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReportServiceImpl.class);
 
     private ReportRepository reportRepository;
+    private ClientRepository clientRepository;
 
     @Autowired
-    public ReportServiceImpl(ReportRepository reportRepository) {
+    public ReportServiceImpl(ReportRepository reportRepository, ClientRepository clientRepository) {
         this.reportRepository = reportRepository;
+        this.clientRepository = clientRepository;
     }
 
 
-    public Report create(String tittle, String content) {
+    public Report create(long clientId, String tittle, String content) {
         LOGGER.info("create report start");
-        //TODO: implement method with logged user
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // CustomUser customUser = (CustomUser)authentication.getPrincipal();
-        // int userId = customUser.getUserId();
+        //TODO: implement exception handler as required
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        Client client = null;
+        if (optionalClient.isPresent()) {
+            client = optionalClient.get();
+        }
+
+
         Report report = Report.builder()
-                .id(1)
+                .client(client)
                 .status(ReportStatus.NEW)
                 .tittle(tittle)
                 .content(content).build();

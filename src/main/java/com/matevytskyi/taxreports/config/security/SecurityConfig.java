@@ -56,11 +56,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login?error=true")
                 .permitAll()
                 .and()
-                .logout()
+                /*.logout()
                 .logoutSuccessUrl("/login?logout=true")
                 .invalidateHttpSession(true)
                 .permitAll()
-                .and()
+                .and()*/
                 .csrf()
                 .disable();
        /* http

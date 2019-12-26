@@ -78,7 +78,8 @@
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <c:set var="inspector" value="${inspector}"/>
-                    <i class="fas fa-user-graduate"></i> ${inspector.firstName}  ${inspector.lastName}</span> <b
+                    <sec:authentication var="principal" property="principal"/>
+                    <i class="fas fa-user-graduate"></i> ${principal.firstName} ${principal.lastName}</span> <b
                         class="caret"></b></a>
                 <ul class="dropdown-menu">
 

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ReportService {
 
-    Report create(String tittle, String content);
+    Report create(long userId, String tittle, String content);
 
     Report save(Report report);
 

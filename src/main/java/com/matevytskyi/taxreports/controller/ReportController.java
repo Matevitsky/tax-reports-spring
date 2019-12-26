@@ -29,9 +29,9 @@ public class ReportController {
     }
 
     @GetMapping("/save")
-    public String save(@RequestParam(value = "tittle") String tittle, @RequestParam(value = "content") String content) {
+    public String save(@RequestParam(value = "tittle") String tittle, @RequestParam(value = "content") String content, @RequestParam(value = "clientId") long clientId) {
         LOGGER.info("Save controller started");
-        reportService.create(tittle, content);
+        reportService.create(clientId, tittle, content);
         return "ClientCreateReportPage";
     }
 

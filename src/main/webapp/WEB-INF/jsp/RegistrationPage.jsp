@@ -78,8 +78,8 @@
             </ul>
         </div>
     </nav>
-    <form action="/app" method="post">
-        <input type="hidden" name="command" value="register">
+    <form action="/client/create-client" method="post">
+
         <div>
             <div class="row text-center">
                 <h2>
@@ -87,7 +87,7 @@
                 </h2>
             </div>
             <div>
-                <label for="firstname" class="col-md-2">
+                <label for="firstName" class="col-md-2">
                     <fmt:message bundle="${common}" key="first.name"/>
                 </label>
                 <div class="col-md-9">

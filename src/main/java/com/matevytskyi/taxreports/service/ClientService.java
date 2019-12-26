@@ -22,7 +22,11 @@ public interface ClientService extends UserDetailsService {
     Page<Client> findAll(Pageable pageable);
 
 
-    Client register(Client client);
+    Client create(String firstName,
+                  String lastName,
+                  String email,
+                  String password,
+                  String companyName);
 
     Optional<Client> findByEmail(String email);
 

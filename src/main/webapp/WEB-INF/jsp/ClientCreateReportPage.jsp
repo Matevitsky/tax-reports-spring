@@ -13,7 +13,8 @@
         <div class="row">
             <div class="col-lg-6">
 
-                <form employeeRole="form" action="/app" method="get">
+                <form employeeRole="form" action="/report/save" method="get">
+                    <input type="hidden" name="clientId" value="${principal.id}">
                     <c:set var="report" value="${report}"/>
                     <div class="form-group">
                         <label>Tittle</label>

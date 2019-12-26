@@ -51,7 +51,7 @@
             <br>
 
 
-            <a href="../jsp/RegistrationPage.jsp">Don't have an account? Sign up</a>
+            <a href="/register">Don't have an account? Sign up</a>
 
 
             <script src="/js/loginEmailValidation.js"></script>

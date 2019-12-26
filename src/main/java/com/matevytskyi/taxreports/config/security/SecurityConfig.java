@@ -3,7 +3,6 @@ package com.matevytskyi.taxreports.config.security;
 
 import com.matevytskyi.taxreports.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,17 +43,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+
+        http.authorizeRequests()
+                .antMatchers("/login")
+                .permitAll()
+//                .antMatchers("/**")
+                //.hasAnyRole("ADMIN", "USER")
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/client/clientPage")
+                .failureUrl("/login?error=true")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login?logout=true")
+                .invalidateHttpSession(true)
+                .permitAll()
+                .and()
+                .csrf()
+                .disable();
+       /* http
                 .httpBasic().disable()
 
                 .csrf().disable()
                 .authorizeRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .anyRequest().permitAll()
-                .antMatchers(LOGIN).permitAll()
-                .antMatchers(MAIN).permitAll();
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()*/
+
+        //  .antMatchers(LOGIN).permitAll()
+        //.antMatchers(MAIN).permitAll();
         // .antMatchers(API_USER).hasAuthority(Role.SUPER_ADMIN.getAuthority())
-        //    .anyRequest().authenticated();
+        //      .anyRequest().authenticated();
     }
 
     @Bean

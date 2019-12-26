@@ -30,7 +30,8 @@
 
         <form class="col-lg-12" action="/login" method="post">
             <div class="input-group" style="width: 340px; text-align: center; margin: 0 auto;">
-                <input class="form-control input-lg" name="email" id="email" placeholder="Enter your email address"
+                <input class="form-control input-lg" name="username" id="username"
+                       placeholder="Enter your email address"
                        type="text"> <span id="loginValid"></span>
             </div>
             <br>

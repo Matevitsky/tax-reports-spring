@@ -14,8 +14,14 @@ public class ClientController {
     private static Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 
     @GetMapping("/create-report")
-    public String createReportPAge(Model model) {
+    public String createReportPage(Model model) {
         LOGGER.info("Register controller started");
         return "ClientCreateReportPage";
+    }
+
+    @RequestMapping("/clientPage")
+    public String getClientPage() {
+        LOGGER.info("getClientPage controller started");
+        return "ClientPage";
     }
 }

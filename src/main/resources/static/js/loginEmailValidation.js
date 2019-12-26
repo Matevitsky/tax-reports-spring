@@ -1,7 +1,7 @@
 $(document).ready(function () {
 });
 var pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-var loginEmail = $('#email');
+var loginEmail = $('#username');
 
 loginEmail.blur(function () {
     if (loginEmail.val() != '') {

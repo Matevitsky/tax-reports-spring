@@ -1,6 +1,7 @@
 package com.matevytskyi.taxreports.config.security;
 
 
+import com.matevytskyi.taxreports.config.CustomAuthenticationSuccessHandler;
 import com.matevytskyi.taxreports.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,13 +23,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     // private final JwtTokenProvider jwtTokenProvider;
 
 
     @Autowired
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.customUserDetailsService = customUserDetailsService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
         //   this.jwtTokenProvider = jwtTokenProvider;
     }
 
@@ -54,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .defaultSuccessUrl("/client/clientPage")
                 .failureUrl("/login?error=true")
+                .successHandler(customAuthenticationSuccessHandler)
                 .permitAll()
                 .and()
                 /*.logout()

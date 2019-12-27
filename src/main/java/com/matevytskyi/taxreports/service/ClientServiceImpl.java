@@ -3,8 +3,8 @@ package com.matevytskyi.taxreports.service;
 import com.matevytskyi.taxreports.entity.Client;
 import com.matevytskyi.taxreports.entity.Company;
 import com.matevytskyi.taxreports.entity.Employee;
-import com.matevytskyi.taxreports.entity.Role;
 import com.matevytskyi.taxreports.repository.ClientRepository;
+import com.matevytskyi.taxreports.repository.EmployeeRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -25,10 +24,12 @@ public class ClientServiceImpl implements ClientService {
     private static final Logger LOGGER = Logger.getLogger(ClientServiceImpl.class);
 
     private ClientRepository clientRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, EmployeeRepository employeeRepository) {
         this.clientRepository = clientRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
@@ -43,7 +44,6 @@ public class ClientServiceImpl implements ClientService {
                 .email(email)
                 .password(new BCryptPasswordEncoder().encode(password))
                 .company(new Company(0L, companyName, null))
-                .roles(Set.of(Role.CLIENT))
                 .build();
 
 
@@ -67,7 +67,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client assignInspector(Client client) {
-        client.setInspector(Employee.builder().id(1).build());
+        //TODO: fix this method with related logic
+        Optional<Employee> byId = employeeRepository.findById(2L);
+        client.setInspector(byId.get());
         return client;
     }
 

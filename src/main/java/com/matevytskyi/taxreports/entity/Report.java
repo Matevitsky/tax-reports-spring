@@ -23,8 +23,7 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty
-    @NotNull
+
     @NotBlank
     @Column(name = "tittle")
     private String tittle;
@@ -34,20 +33,18 @@ public class Report {
     @Column(name = "content")
     private String content;
 
-    @NotEmpty
+
     @NotNull
-    @NotBlank
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ReportStatus status;
 
-    @NotEmpty
+
     @Column(name = "reasonToReject")
     private String reasonToReject;
 
-    @NotEmpty
-    @NotNull
 
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private Client client;

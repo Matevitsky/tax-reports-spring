@@ -1,15 +1,22 @@
 package com.matevytskyi.taxreports.controller;
 
 
+import com.matevytskyi.taxreports.entity.Report;
+import com.matevytskyi.taxreports.entity.User;
 import com.matevytskyi.taxreports.service.ClientService;
+import com.matevytskyi.taxreports.service.ReportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/client")
@@ -17,9 +24,11 @@ public class ClientController {
     private static Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 
     private ClientService clientService;
+    private ReportService reportService;
 
-    public ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService, ReportService reportService) {
         this.clientService = clientService;
+        this.reportService = reportService;
     }
 
     @GetMapping("/create-report")
@@ -29,9 +38,15 @@ public class ClientController {
     }
 
     @RequestMapping("/clientPage")
-    public String getClientPage() {
+    public ModelAndView getClientPage(Authentication authentication) {
         LOGGER.info("getClientPage controller started");
-        return "ClientPage";
+
+        ModelAndView modelAndView = new ModelAndView("ClientPage");
+        User user = (User) authentication.getPrincipal();
+        List<Report> reportsByClientId = reportService.getReportsByClientId(user.getId());
+        modelAndView.addObject("reports", reportsByClientId);
+
+        return modelAndView;
     }
 
     @PostMapping("/create-client")

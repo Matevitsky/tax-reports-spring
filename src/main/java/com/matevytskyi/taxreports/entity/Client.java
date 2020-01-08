@@ -36,4 +36,5 @@ public class Client extends User {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Set.of(new SimpleGrantedAuthority(Role.CLIENT.getAuthority()));
     }
+
 }

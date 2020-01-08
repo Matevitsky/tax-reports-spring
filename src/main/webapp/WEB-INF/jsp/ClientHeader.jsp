@@ -64,8 +64,8 @@
                     key="create.new.report"/></a>
             </li>
 
-            <li><a href="/client/all-reports"><i class="fa fa-bars"></i> <fmt:message bundle="${common}"
-                                                                                      key="all.reports"/></a>
+            <li><a href="/client/clientPage"><i class="fa fa-bars"></i> <fmt:message bundle="${common}"
+                                                                                     key="all.reports"/></a>
             </li>
 
         </ul>

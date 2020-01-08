@@ -35,6 +35,4 @@ public class ReportController {
         reportService.create(clientId, tittle, content);
         return "ClientCreateReportPage";
     }
-
-
 }

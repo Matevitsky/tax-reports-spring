@@ -22,14 +22,4 @@ public class LoginController {
         return "loginPage";
     }
 
- /*   @PostMapping("/login")
-    public String login(Model model, HttpServletRequest request, @RequestParam(name = "email") String email,
-                        @RequestParam(name = "password") String password) {
-
-        LOGGER.info("Started");
-        AuthorizedUser authorizedUser = AuthorizedUser.safeGet();
-
-
-        return "ClientPage";
-    }*/
 }

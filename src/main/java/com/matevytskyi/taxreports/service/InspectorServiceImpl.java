@@ -1,9 +1,10 @@
 package com.matevytskyi.taxreports.service;
 
+import com.matevytskyi.taxreports.dto.ReportWithClientName;
+import com.matevytskyi.taxreports.entity.Client;
 import com.matevytskyi.taxreports.entity.Employee;
 import com.matevytskyi.taxreports.entity.Report;
 import com.matevytskyi.taxreports.entity.ReportStatus;
-import com.matevytskyi.taxreports.repository.ClientRepository;
 import com.matevytskyi.taxreports.repository.InspectorRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InspectorServiceImpl implements InspectorService {
@@ -20,68 +22,82 @@ public class InspectorServiceImpl implements InspectorService {
     private static final Logger LOGGER = Logger.getLogger(InspectorServiceImpl.class);
 
     private final InspectorRepository inspectorRepository;
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
     private final ReportService reportService;
 
     @Autowired
-    public InspectorServiceImpl(InspectorRepository inspectorRepository, ClientRepository clientRepository, ReportService reportService) {
+    public InspectorServiceImpl(InspectorRepository inspectorRepository, ClientService clientService, ReportService reportService) {
         this.inspectorRepository = inspectorRepository;
-        this.clientRepository = clientRepository;
+        this.clientService = clientService;
         this.reportService = reportService;
     }
 
     @Override
     public Employee create(Employee inspector) {
-        LOGGER.info("create inspecotr started");
+        LOGGER.debug("create inspecotr started");
         return inspectorRepository.save(inspector);
     }
 
     @Override
     public void deleteById(long id) {
-        LOGGER.info("deleteById inspecotr started");
+        LOGGER.debug("deleteById inspecotr started");
         inspectorRepository.deleteById(id);
     }
 
     @Override
     public Employee update(Employee inspector) {
-        LOGGER.info("update inspecotr started");
+        LOGGER.debug("update inspecotr started");
         return inspectorRepository.save(inspector);
     }
 
     @Override
     public Optional<Employee> getById(long id) {
-        LOGGER.info("getById inspecotr started");
+        LOGGER.debug("getById inspecotr started");
         return inspectorRepository.findById(id);
     }
 
     @Override
     public Page<Employee> findAll(Pageable pageable) {
-        LOGGER.info("findAll inspecotr started");
+        LOGGER.debug("findAll inspecotr started");
         return inspectorRepository.findAll(pageable);
     }
 
     @Override
     public Employee findByEmail(String email) {
         //TODO: check if null
-        LOGGER.info("findByEmail inspecotr started");
+        LOGGER.debug("findByEmail inspecotr started");
         return inspectorRepository.findByEmail(email);
     }
 
     @Override
     public List<Report> getReports(int inspectorId) {
-        LOGGER.info("getReports inspecotr started");
+        LOGGER.debug("getReports inspector started");
         return reportService.getReportsByClientId(inspectorId);
     }
 
     @Override
-    public List<Report> getNewReports(int inspectorId) {
-        LOGGER.info("getNewReports inspecotr started");
-        return reportService.findNewReports(inspectorId);
+    public List<ReportWithClientName> getNewReports(long inspectorId) {
+        LOGGER.debug("getNewReports inspector started");
+
+        List<Client> clientsByInspectorId = clientService.findClientsByInspectorId(inspectorId);
+
+        List<Report> allNewClientsReports = clientsByInspectorId.stream()
+                .flatMap(client -> reportService.findAllByClient_IdAndStatus(client.getId(), ReportStatus.NEW).stream())
+                .collect(Collectors.toList());
+
+        return allNewClientsReports.stream()
+                .map(report -> ReportWithClientName.builder()
+                        .clientFullName(report.getClient().getFullName())
+                        .id(report.getId())
+                        .tittle(report.getTittle())
+                        .reportStatus(report.getStatus()).build())
+                .collect(Collectors.toList());
+
     }
 
     @Override
     public boolean acceptReport(int reportId) {
-        LOGGER.info("acceptReport inspecotr started");
+        LOGGER.debug("acceptReport inspecotr started");
         Report update = null;
 
         Optional<Report> optionalReport = reportService.getById(reportId);
@@ -96,14 +112,14 @@ public class InspectorServiceImpl implements InspectorService {
 
     @Override
     public boolean declineReport(int reportId, String reasonToReject) {
-        LOGGER.info("declineReport inspecotr started");
+        LOGGER.debug("declineReport inspecotr started");
 
         Report update = null;
         Optional<Report> optionalReport = reportService.getById(reportId);
         if (optionalReport.isPresent()) {
             Report report = optionalReport.get();
             if (report.getStatus().equals(ReportStatus.ACCEPTED)) {
-                LOGGER.info("Can't decline accepted report");
+                LOGGER.debug("Can't decline accepted report");
                 return false;
             } else {
                 report.setStatus(ReportStatus.DECLINED);

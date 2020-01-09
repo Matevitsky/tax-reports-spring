@@ -5,7 +5,8 @@ import com.matevytskyi.taxreports.entity.Company;
 import com.matevytskyi.taxreports.entity.Employee;
 import com.matevytskyi.taxreports.repository.ClientRepository;
 import com.matevytskyi.taxreports.repository.EmployeeRepository;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +16,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    private static final Logger LOGGER = Logger.getLogger(ClientServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientServiceImpl.class);
 
     private ClientRepository clientRepository;
     private EmployeeRepository employeeRepository;
@@ -45,9 +47,9 @@ public class ClientServiceImpl implements ClientService {
                 .password(new BCryptPasswordEncoder().encode(password))
                 .company(new Company(0L, companyName, null))
                 .build();
+        assignInspector(client);
 
-
-        return clientRepository.save(assignInspector(client));
+        return clientRepository.save(client);
     }
 
     @Override
@@ -56,13 +58,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean addReportToRequest(HttpServletRequest request, int reportId) {
+    public boolean addReportToRequest(HttpServletRequest request, long reportId) {
         return false;
     }
 
     @Override
-    public Optional<List<Client>> findClientsByInspectorId(int inspectorId) {
-        return Optional.empty();
+    public List<Client> findClientsByInspectorId(long inspectorId) {
+
+        Optional<List<Client>> allByInspectorId = clientRepository.findAllByInspectorId(inspectorId);
+
+        if (!allByInspectorId.isPresent()) {
+            LOGGER.info("no clients for inspector id " + inspectorId);
+            return new ArrayList<>();
+        }
+        return allByInspectorId.get();
     }
 
     @Override

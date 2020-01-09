@@ -31,7 +31,7 @@ public class ReportServiceImpl implements ReportService {
 
 
     public Report create(long clientId, String tittle, String content) {
-        LOGGER.info("create report start");
+        LOGGER.debug("create report start");
         //TODO: implement exception handler as required
         Optional<Client> optionalClient = clientRepository.findById(clientId);
         Client client = null;
@@ -49,13 +49,13 @@ public class ReportServiceImpl implements ReportService {
     }
 
     public Report save(Report report) {
-        LOGGER.info("save report start");
+        LOGGER.debug("save report start");
         return reportRepository.save(report);
     }
 
 
     public void deleteById(long id) {
-        LOGGER.info("deleteById report start");
+        LOGGER.debug("deleteById report start");
         reportRepository.deleteById(id);
     }
 
@@ -70,20 +70,27 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public List<Report> findNewReports(long inspectorId) {
-        return reportRepository.findAllByClient_IdAndStatus(inspectorId, ReportStatus.NEW);
+    public List<Report> getReportsByClientId(long clientId) {
+        LOGGER.debug("FindAll report by client Id  started");
+        return reportRepository.findAllByClient_Id(clientId);
     }
 
     @Override
-    public List<Report> getReportsByClientId(long clientId) {
-        LOGGER.info("FindAll report by client Id  started");
-        return reportRepository.findAllByClient_Id(clientId);
+    public List<Report> findAllByClient_IdAndStatus(long clientId, ReportStatus reportStatus) {
+        LOGGER.debug("FindAll report by client Id  started");
+        Optional<List<Report>> allByClient_idAndStatus = reportRepository.findAllByClient_IdAndStatus(clientId, reportStatus);
+        if (!allByClient_idAndStatus.isPresent()) {
+            LOGGER.info("no NEW reports for clientId " + clientId);
+            return List.of();
+        }
+        return allByClient_idAndStatus.get();
     }
 
     @Override
     public List<Report> getClientActiveReports(long clientId) {
         return reportRepository.findAllByClient_IdAndStatusNot(clientId, ReportStatus.ACCEPTED);
     }
+
 
     @Override
     public Report changeStatusToInProgress(Report report) {

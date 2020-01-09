@@ -15,11 +15,13 @@ import javax.validation.constraints.NotBlank;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@MappedSuperclass
+//@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //  @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id", unique = true, nullable = false)
     private long id;
 

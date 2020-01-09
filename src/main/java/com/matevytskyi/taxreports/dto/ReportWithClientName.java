@@ -2,37 +2,21 @@ package com.matevytskyi.taxreports.dto;
 
 
 import com.matevytskyi.taxreports.entity.ReportStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReportWithClientName {
 
-    private final int id;
-    private final String tittle;
-    private final String clientFullName;
+    private long id;
+    private String tittle;
+    private String clientFullName;
 
-    private final ReportStatus reportStatus;
+    private ReportStatus reportStatus;
 
-
-    public ReportWithClientName(int id, String tittle, String clientFirstName, String clientLastName, ReportStatus reportStatus) {
-        this.id = id;
-        this.tittle = tittle;
-        this.clientFullName = clientLastName + " " + clientFirstName;
-        this.reportStatus = reportStatus;
-
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getTittle() {
-        return tittle;
-    }
-
-    public String getClientFullName() {
-        return clientFullName;
-    }
-
-    public ReportStatus getReportStatus() {
-        return reportStatus;
-    }
 }

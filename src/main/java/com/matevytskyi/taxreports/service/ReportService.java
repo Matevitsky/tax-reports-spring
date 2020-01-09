@@ -2,6 +2,7 @@ package com.matevytskyi.taxreports.service;
 
 
 import com.matevytskyi.taxreports.entity.Report;
+import com.matevytskyi.taxreports.entity.ReportStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,9 +22,11 @@ public interface ReportService {
 
     Page<Report> findAll(Pageable pageable);
 
-    List<Report> findNewReports(long inspectorId);
+    //  List<Report> getReportsByInspectorId(long inspectorId);
 
     List<Report> getReportsByClientId(long clientId);
+
+    List<Report> findAllByClient_IdAndStatus(long clientId, ReportStatus reportStatus);
 
     List<Report> getClientActiveReports(long clientId);
 

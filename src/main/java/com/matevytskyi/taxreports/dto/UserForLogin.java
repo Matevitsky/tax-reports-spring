@@ -1,6 +1,6 @@
 package com.matevytskyi.taxreports.dto;
 
-import java.util.Objects;
+/*
 
 public class UserForLogin {
     private final int id;
@@ -57,3 +57,4 @@ public class UserForLogin {
         INSPECTOR
     }
 }
+*/

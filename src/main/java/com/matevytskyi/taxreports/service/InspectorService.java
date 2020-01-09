@@ -1,6 +1,7 @@
 package com.matevytskyi.taxreports.service;
 
 
+import com.matevytskyi.taxreports.dto.ReportWithClientName;
 import com.matevytskyi.taxreports.entity.Employee;
 import com.matevytskyi.taxreports.entity.Report;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 public interface InspectorService {
 
-    Employee create(Employee inspecotor);
+    Employee create(Employee inspector);
 
     void deleteById(long id);
 
@@ -25,7 +26,7 @@ public interface InspectorService {
 
     List<Report> getReports(int inspectorId);
 
-    List<Report> getNewReports(int inspectorId);
+    List<ReportWithClientName> getNewReports(long inspectorId);
 
     boolean acceptReport(int reportId);
 

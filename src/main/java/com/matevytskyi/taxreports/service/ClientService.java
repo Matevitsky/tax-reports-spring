@@ -30,9 +30,9 @@ public interface ClientService extends UserDetailsService {
 
     Optional<Client> findByEmail(String email);
 
-    boolean addReportToRequest(HttpServletRequest request, int reportId);
+    boolean addReportToRequest(HttpServletRequest request, long reportId);
 
-    Optional<List<Client>> findClientsByInspectorId(int inspectorId);
+    List<Client> findClientsByInspectorId(long inspectorId);
 
     Client assignInspector(Client client);
 

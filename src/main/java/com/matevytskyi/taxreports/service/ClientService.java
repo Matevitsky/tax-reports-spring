@@ -2,6 +2,7 @@ package com.matevytskyi.taxreports.service;
 
 
 import com.matevytskyi.taxreports.entity.Client;
+import com.matevytskyi.taxreports.entity.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,7 +35,7 @@ public interface ClientService extends UserDetailsService {
 
     List<Client> findClientsByInspectorId(long inspectorId);
 
-    Client assignInspector(Client client);
+    Employee assignInspector();
 
     // Optional<List<ClientForAdmin>> getAllClientsForInspector();
 

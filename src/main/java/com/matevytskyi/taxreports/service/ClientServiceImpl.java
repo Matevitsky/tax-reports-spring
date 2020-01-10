@@ -40,14 +40,16 @@ public class ClientServiceImpl implements ClientService {
                          String email,
                          String password,
                          String companyName) {
+
         Client client = Client.builder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
                 .password(new BCryptPasswordEncoder().encode(password))
                 .company(new Company(0L, companyName, null))
+                .inspector(assignInspector())
                 .build();
-        assignInspector(client);
+
 
         return clientRepository.save(client);
     }
@@ -75,11 +77,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client assignInspector(Client client) {
+    public Employee assignInspector() {
         //TODO: fix this method with related logic
         Optional<Employee> byId = employeeRepository.findById(2L);
-        client.setInspector(byId.get());
-        return client;
+        Employee employee = new Employee();
+        employee = byId.get();
+
+        return employee;
     }
 
 
